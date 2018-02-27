@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import weka.core.Attribute;
 import weka.core.Instances;
@@ -82,13 +83,23 @@ public class Driver {
 		System.out.println(combined.numInstances() + " " + combined.numAttributes());
 		
 		System.out.println(combined.get(0));
-		combined.compactify();
 		System.out.println(combined.instance(combined.numInstances()-2));
+		ArrayList<Integer> brokenIndexes = new ArrayList<Integer>();
+		
 		for(int i = 0; i < combined.numInstances();i++) {
-			//System.out.println(combined.get(i));
+			try {
+				combined.get(i).toString();
+			}catch(IndexOutOfBoundsException e) {
+				brokenIndexes.add(i);
+			}
 		}
 		
-		
+		System.out.println();
+		for(int i = 0; i < brokenIndexes.size();i++) {
+			if( i %10 == 0)
+				System.out.println();
+			System.out.print(brokenIndexes.get(i) +",\t");
+		}
 		return combined;
 	}
 
